@@ -18,7 +18,7 @@ const Home: React.FC = () => {
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <Image
-            src="/assets/images/hero_section_image/Image 1.png" // Replace with your actual image path
+            src="/assets/images/hero_section_image/Image 1.png"
             alt="Beautiful lakeside cabin with mountains"
             fill
             className="object-cover object-center"
