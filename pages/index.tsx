@@ -2,29 +2,93 @@ import React from "react";
 import Image from "next/image";
 import { PROPERTYLISTINGSAMPLE } from "@/constants/index";
 import Card from "@/components/common/Card";
-import FilterSection from "@/components/common/Pill";
-
-// const FilterSection: React.FC = () => {
-//   const [activeFilter, setActiveFilter] = React.useState('All');
-//   const [selectedSort, setSelectedSort] = React.useState('Highest Price');
-//   const [showFilters, setShowFilters] = React.useState(false);
-// }
+import { FilterSection, MobileFilterSection } from "@/components/common/Pill";
 
 const Home: React.FC = () => {
+  // Filter and sort state
+  const [activeFilter, setActiveFilter] = React.useState("All");
+  const [selectedSort, setSelectedSort] = React.useState("price-desc");
+
+  // Filter properties based on active filter
+  const filteredProperties = React.useMemo(() => {
+    if (activeFilter === "All") {
+      return PROPERTYLISTINGSAMPLE;
+    }
+    return PROPERTYLISTINGSAMPLE.filter((property) =>
+      property.category.includes(activeFilter)
+    );
+  }, [activeFilter]);
+
+  // Sort properties based on selected sort option
+  const sortedProperties = React.useMemo(() => {
+    const properties = [...filteredProperties];
+
+    switch (selectedSort) {
+      case "price-asc":
+        return properties.sort((a, b) => {
+          const priceA = a.discount
+            ? a.price - (a.price * parseInt(a.discount)) / 100
+            : a.price;
+          const priceB = b.discount
+            ? b.price - (b.price * parseInt(b.discount)) / 100
+            : b.price;
+          return priceA - priceB;
+        });
+      case "price-desc":
+        return properties.sort((a, b) => {
+          const priceA = a.discount
+            ? a.price - (a.price * parseInt(a.discount)) / 100
+            : a.price;
+          const priceB = b.discount
+            ? b.price - (b.price * parseInt(b.discount)) / 100
+            : b.price;
+          return priceB - priceA;
+        });
+      case "rating-desc":
+        return properties.sort((a, b) => b.rating - a.rating);
+      case "rating-asc":
+        return properties.sort((a, b) => a.rating - b.rating);
+      default:
+        return properties;
+    }
+  }, [filteredProperties, selectedSort]);
+
   return (
     <div className="min-h-screen">
+      {/* Mobile Filter Section - Above Hero */}
+      <MobileFilterSection
+        activeFilter={activeFilter}
+        setActiveFilter={setActiveFilter}
+        selectedSort={selectedSort}
+        setSelectedSort={setSelectedSort}
+      />
+
       {/* Hero Section */}
-      <section className="relative w-full h-screen flex items-center justify-center overflow-hidden">
+      <section className="relative w-full h-[296px] sm:h-[421px] lg:h-[481px] flex items-center justify-center overflow-hidden bg-gray-50">
         {/* Background Image */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/assets/images/hero_section_image/Image 1.png"
-            alt="Beautiful lakeside cabin with mountains"
-            fill
-            className="object-cover object-center"
-            priority
-            sizes="100vw"
-          />
+        <div className="absolute inset-0 z-0 mx-[21px] sm:mx-[40px] lg:mx-[60px] rounded-[11px] sm:rounded-[27px] overflow-hidden">
+          {/* mobile background */}
+          <div className="block sm:hidden">
+            <Image
+              src="/assets/images/hero_section_image/Image 1 mobile.png"
+              alt="Beautiful lakeside cabin with mountains"
+              fill
+              className="object-cover object-center"
+              priority
+              sizes="100vw"
+            />
+          </div>
+          {/* Tablet and desktop view background */}
+          <div className="hidden sm:block">
+            <Image
+              src="/assets/images/hero_section_image/Image 1.png"
+              alt="Beautiful lakeside cabin with mountains"
+              fill
+              className="object-cover object-center"
+              priority
+              sizes="100vw"
+            />
+          </div>
           {/* Dark overlay for better text readability */}
           <div className="absolute inset-0 bg-black/30"></div>
         </div>
@@ -45,31 +109,41 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      <FilterSection />
+      <FilterSection
+        activeFilter={activeFilter}
+        setActiveFilter={setActiveFilter}
+        selectedSort={selectedSort}
+        setSelectedSort={setSelectedSort}
+      />
 
       <section className="py-12 sm:py-16 lg:py-20 bg-gray-50">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Section Header */}
-          <div className="text-center mb-8 sm:mb-12">
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Featured Properties
-            </h2>
-            <p className="text-gray-600 text-base sm:text-lg max-w-2xl mx-auto">
-              Discover amazing places to stay around the world
-            </p>
-          </div>
-
           {/* Property Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-            {PROPERTYLISTINGSAMPLE.map((property, index) => (
+            {sortedProperties.map((property, index) => (
               <Card key={index} property={property} />
             ))}
           </div>
 
+          {/* No results message */}
+          {sortedProperties.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-500 text-lg">
+                No properties found for the selected filter.
+              </p>
+              <button
+                onClick={() => setActiveFilter("All")}
+                className="mt-4 text-teal-600 hover:text-teal-700 font-medium"
+              >
+                Clear filters
+              </button>
+            </div>
+          )}
+
           {/* Load More Button */}
           <div className="text-center mt-12">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-300 shadow-md hover:shadow-lg">
-              View More Properties
+            <button className="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-8 rounded-lg transition-colors duration-300 shadow-md hover:shadow-lg">
+              Show more
             </button>
           </div>
         </div>
