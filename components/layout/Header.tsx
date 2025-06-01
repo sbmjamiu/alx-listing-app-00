@@ -36,17 +36,17 @@ const Header: React.FC = () => {
 
   const handleAccommodationClick = (key: string): void => {
     console.log(`Selected accommodation: ${key}`);
-    // Add your accommodation selection logic here
+    // accommodation selection logic
   };
 
   const handleAuthAction = (action: "signin" | "signup"): void => {
     console.log(`${action} clicked`);
-    // Add your authentication logic here
+    //authentication logic
   };
 
   const handleSearch = (): void => {
     console.log("Search triggered");
-    // Add your search logic here
+    // search logic
   };
 
   return (
