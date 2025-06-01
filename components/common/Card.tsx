@@ -34,7 +34,7 @@ const Card: React.FC<{ property: PropertyProps }> = ({ property }) => {
         {property.category.slice(0, 3).map((cat, index) => (
           <p
             key={index}
-            className="text-sm flex justify-center  items-center bg-[#F9F9F9] px-3 w-auto h-[27px] rounded-full"
+            className="text-sm flex justify-center  items-center text-gray-700 bg-[#F9F9F9] px-3 w-auto h-[27px] rounded-full"
           >
             {cat}
           </p>
@@ -66,7 +66,7 @@ const Card: React.FC<{ property: PropertyProps }> = ({ property }) => {
           {property.address.state}, {property.address.country}
         </p>
 
-        {/* Address */}
+        {/* Property Features */}
         <div className="flex justify-between mt-4">
           <div className=" grid grid-cols-3 border w-[156px] rounded-full px-2 py-1">
             <div className="flex items-center">
@@ -143,23 +143,23 @@ const Card: React.FC<{ property: PropertyProps }> = ({ property }) => {
               </p>
             </div>
           </div>
-          <p className=" text-[22px] font-semibold flex items-center gap-1">
+          <div className=" font-semibold flex items-center gap-2">
             {property.discount ? (
-              <>
-                <span className="text-lg font-bold text-gray-900">
+              <p className="flex flex-col items-center">
+                <span className="text-sm font-bold text-gray-900">
                   ${discountedPrice.toLocaleString()}
                 </span>
                 <span className="text-sm text-gray-500 line-through">
                   ${property.price.toLocaleString()}
                 </span>
-              </>
+              </p>
             ) : (
-              <span className="text-lg font-bold text-gray-900">
+              <span className="text-sm font-bold text-gray-900">
                 ${property.price.toLocaleString()}
               </span>
             )}
             <span className=" text-[14px] text-[#787878]">/n</span>
-          </p>
+          </div>
         </div>
       </div>
     </div>
