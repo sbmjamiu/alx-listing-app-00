@@ -21,9 +21,10 @@ const Footer: React.FC = () => {
 
   return (
     <footer className="bg-gray-800 text-white">
+      <div className="bg-teal-500 text-white px-4 py-4 text-center text-sm"></div>
       <div className="max-w-7xl mx-auto px-6 py-12">
         {/* Logo and Description - Always at top */}
-        <div className="mb-8">
+        <div className="mb-8 lg:hidden">
           <div className="text-2xl font-bold mb-4">
             al<span className="text-teal-400">✕</span>
           </div>
@@ -37,7 +38,19 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-8 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-8 mb-8">
+          <div className="mb-8 hidden lg:block">
+            <div className="text-2xl font-bold mb-4">
+              al<span className="text-teal-400">✕</span>
+            </div>
+            <p className="text-gray-300 text-sm leading-relaxed max-w-md">
+              ALX is a platform where travellers can discover and book unique,
+              comfortable, and affordable lodging options worldwide. From cozy
+              city apartments and tranquil countryside retreats to exotic
+              beachside villas, ALX connects you with the perfect place to stay
+              for any trip.
+            </p>
+          </div>
           {/* Explore Section */}
           <div>
             <h3 className="text-lg font-semibold text-white mb-4">Explore</h3>
